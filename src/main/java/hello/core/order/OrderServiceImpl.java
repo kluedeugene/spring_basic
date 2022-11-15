@@ -2,6 +2,7 @@ package hello.core.order;
 
 import hello.core.discont.DiscountPolicy;
 import hello.core.discont.FixDiscountPolicy;
+import hello.core.discont.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
@@ -9,7 +10,13 @@ import hello.core.member.MemoryMemberRepository;
 public class OrderServiceImpl implements OrderService {
 
     private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();      //메모리회원레포와 고정할인정책을 구현체로 생성 사용
+
+    //DIP를 지키기위해 인터페이스만 남겨놓으면 당연하게도 안된다. 해결하려면 누군가가 Impl에 DisCountPolicy의 구현객체를 대신 생성하고주입해줘야 한다.
+    private DiscountPolicy discountPolicy;
+
+//    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();      //메모리회원레포와 고정할인정책을 구현체로 생성 사용 OrderServiceImpl이 discountPolicy뿐만 아니라
+                                                                                                                                    // FixDiscountPolicy도 함께 의존하고있다. DIP위반
+//    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();      //비율할인정책으로 코드를 변경해야했다.  OCP 위반
 
 
     @Override
