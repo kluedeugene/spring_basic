@@ -1,4 +1,4 @@
-package hello.core.member.discont;
+package hello.core.discont;
 
 import hello.core.member.Member;
 
