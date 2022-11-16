@@ -9,10 +9,17 @@ import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
 
-    //DIP를 지키기위해 인터페이스만 남겨놓으면 당연하게도 안된다. 해결하려면 누군가가 Impl에 DisCountPolicy의 구현객체를 대신 생성하고주입해줘야 한다.
-    private DiscountPolicy discountPolicy;
+    //생성자
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
+
+//DIP를 지키기위해 인터페이스만 남겨놓으면 당연하게도 안된다. 해결하려면 누군가가 Impl에 DisCountPolicy의 구현객체를 대신 생성하고주입해줘야 한다.
 
 //    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();      //메모리회원레포와 고정할인정책을 구현체로 생성 사용 OrderServiceImpl이 discountPolicy뿐만 아니라
                                                                                                                                     // FixDiscountPolicy도 함께 의존하고있다. DIP위반

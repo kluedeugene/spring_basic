@@ -4,7 +4,11 @@ package hello.core.member;
 
 public class MemberServiceImpl implements MemberService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();     //추상화에도 의존하고 구체화에도 의존하고있는것. dip위반
+    private final MemberRepository memberRepository ;     //생성자를 통해 memory멤버레포가 할당된다.
+
+    public MemberServiceImpl(MemberRepository memberRepository) {   //생성자를 통해 memberRepository에 무엇이 들어갈지 선택한다.
+        this.memberRepository = memberRepository;
+    }
 
     @Override
     public void join(Member member) {
