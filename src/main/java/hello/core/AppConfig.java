@@ -13,21 +13,41 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
-@Configuration
+@Configuration      // configuration을 안하면 싱글톤이 깨지고 memberRepository가 중복호출된다. -> configuration test 로 확인가능
 public class AppConfig {
+
+    //@Bean memberService -> new MemoryMemberRepository()
+    //@Bean orderService -> new MemoryMemberRepository()
+    //싱글톤이 깨지는 구조 아닌가? ?
+
+    //call AppConfig.memberService
+    //call AppConfig.memberRepository
+    //call AppConfig.memberRepository
+    //call AppConfig.orderService
+    //call AppConfig.memberRepository
+
+    //실제론
+    //call AppConfig.memberService
+    //call AppConfig.memberRepository
+    //call AppConfig.orderService
+
+
 
     @Bean
         public MemberService    memberService(){    //어딘가에서 memberService를 사용하면 Memory멤버레포가 주입된다. 생성자주입이다.
-            return new MemberServiceImpl(memberRepository());
+        System.out.println("call AppConfig.memberService");
+        return new MemberServiceImpl(memberRepository());
         }
 
     @Bean
     public MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();        //  메모리 멤버 레포를 사용.  나중에 jdbc레포를 사용하고싶다면 이부분만 변경하면 된다.
     }
     @Bean
     public OrderService orderService(){     //orderService를 조회하면 메모리멤버레포, 픽스디스카운트가 리턴
-            return new OrderServiceImpl(memberRepository(),  discountPolicy());
+        System.out.println("call AppConfig.orderService");
+        return new OrderServiceImpl(memberRepository(),  discountPolicy());
         }
 
     @Bean
