@@ -1,24 +1,30 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discont.DiscountPolicy;
 import hello.core.discont.FixDiscountPolicy;
 import hello.core.discont.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
+//@RequiredArgsConstructor //final 이 붙은 필수값들을 가지고 생성자를 자동으로 만들어준다.  -> ctrl + F12 로 확인가능
 public class OrderServiceImpl implements OrderService {
 
-    private final MemberRepository memberRepository;
-    private final DiscountPolicy discountPolicy;
+    //생성자주입을 선택하면 final 을 사용할수있다. -> 생성자에서 만약 값을 설정하는것을 누락하면 컴파일에러가 발생해 인식이 쉽다.
+    private  final MemberRepository memberRepository;
+    private  final DiscountPolicy discountPolicy;
 
-    //생성자
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
 
+    //생성자  ->lombok RequiredArgsConstructor 으로 인해 작성안해도됨.
+    @Autowired      //생성자 하나라면 생략가능
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
+        System.out.println("1.  OrderServiceImpl.OrderServiceImpl" );
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
@@ -44,3 +50,4 @@ public class OrderServiceImpl implements OrderService {
     }
 
 }
+

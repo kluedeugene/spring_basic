@@ -12,6 +12,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired          //자동 의존관계 주입   like) ac.getBean(MemberRerpository.class)
     public MemberServiceImpl(MemberRepository memberRepository) {   //생성자를 통해 memberRepository에 무엇이 들어갈지 선택한다.
+
         this.memberRepository = memberRepository;
     }
 
